@@ -30,7 +30,17 @@ contract DataFeedTask {
      * 通过 Remix 部署在非本地环境中时
      * 查看 aggregator 的地址 https://docs.chain.link/docs/ethereum-addresses/#Goerli%20Testnet，获得 Aggregator 合约地址
      * 本地环境中相关参数已经在测试脚本中配置
+     * 
+     *  
+     * 
+     *  
+     *  linkPriceFeed = AggregatorV3Interface(0xb4c4a493AB6356497713A78FFA6c60FB53517c63);
+     *   btcPriceFeed = AggregatorV3Interface(0xA39434A63A52E749F02807ae27335515BA4b07F7);
+     *   ethPriceFeed = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
+     * 
      *  */
+
+
     constructor(
         address _linkPriceFeed,
         address _btcPriceFeed,

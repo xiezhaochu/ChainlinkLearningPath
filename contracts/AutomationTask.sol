@@ -75,7 +75,7 @@ contract AutomationTask is AutomationCompatible {
         upkeepNeeded = false;
         if (block.timestamp-lastTimeStamp>interval){
             for(uint256 i=0;i<SIZE && !upkeepNeeded;i++){
-                if(healthPoint[SIZE]<MAXIMUM_HEALTH){
+                if(healthPoint[i]<MAXIMUM_HEALTH){
                     upkeepNeeded=true;
                 }
             }
@@ -101,7 +101,7 @@ contract AutomationTask is AutomationCompatible {
     {
         //在此添加 solidity 代码
 
-        for(uint256 i;i<SIZE;i++){
+        for(uint256 i=0;i<SIZE;i++){
                 healthPoint[i]=MAXIMUM_HEALTH;
         }
 
