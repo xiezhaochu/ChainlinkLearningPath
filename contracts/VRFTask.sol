@@ -35,11 +35,13 @@ contract VRFTask is VRFConsumerBaseV2 {
      * 本地环境在测试脚本中已经自动配置
      * 
      */ 
+    address  VRFCoordinatorAddr=0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9;
+    
     uint64 immutable s_subscriptionId;
     bytes32 immutable s_keyHash;
-    uint32 constant CALL_BACK_LIMIT = 100;
+    uint32 constant CALL_BACK_LIMIT = 200_000;
     uint16 constant REQUEST_CONFIRMATIONS = 1;
-    uint32 constant NUM_WORDS = 1;
+    uint32 constant NUM_WORDS = 5;
 
     uint256[] public s_randomWords;
     uint256 public s_requestId;
@@ -65,9 +67,9 @@ contract VRFTask is VRFConsumerBaseV2 {
         s_owner = msg.sender;
         
         //修改以下 solidity 代码
-        COORDINATOR = VRFCoordinatorV2Interface(address(0));
-        s_subscriptionId = 0;
-        s_keyHash = "";
+        COORDINATOR = VRFCoordinatorV2Interface(VRFCoordinatorAddr);
+        s_subscriptionId = 1;
+        s_keyHash = 0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc;
     }
 
     /** 
@@ -75,6 +77,13 @@ contract VRFTask is VRFConsumerBaseV2 {
      * */ 
     function requestRandomWords() external onlyOwner {
         //在此添加并且修改 solidity 代码
+        s_requestId=COORDINATOR.requestRandomWords(
+            s_keyHash,
+            s_subscriptionId,
+            REQUEST_CONFIRMATIONS,
+            CALL_BACK_LIMIT,
+            NUM_WORDS
+        );
     }
 
     /**
@@ -87,7 +96,32 @@ contract VRFTask is VRFConsumerBaseV2 {
         override
     {
         //在此添加 solidity 代码
-        
+        // uint[] memory result = new uint[](5);
+
+        // for (uint i = 0; i < 5; i++) {
+        //    result[i] = i + 1;
+        // }
+        // uint last_item = 4;
+        //         for (uint i = 1; i < 5 - 1; i++) {
+        //     // Select a number based on the randomness.
+        //     uint selected_item = uint(_randomWords[i]) % last_item;
+            
+        //     // Swap items `selected_item <> last_item`.
+        //     uint aux = result[last_item];
+        //     result[last_item] = result[selected_item];
+        //     result[selected_item] = aux;
+            
+        //     // Decrease the size of the possible shuffle
+        //     // to preserve the already shuffled items.
+        //     // The already shuffled items are at the end of the array.
+        //     last_item--;
+            
+        //     // Generate new randomness.
+        //     // random = keccak256(abi.encodePacked(random));
+        // }
+        s_randomWords=_randomWords;
         emit ReturnedRandomness(s_randomWords);
+        
+
     }
 }

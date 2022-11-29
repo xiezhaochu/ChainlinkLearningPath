@@ -14,6 +14,9 @@ module.exports = {
       }  
     ]
   }, 
+  network:{
+
+  },
 
   paths: {
     sources: "./contracts",

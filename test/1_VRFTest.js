@@ -17,14 +17,14 @@ describe("单元测试：Chainlink VRF", async ()=> {
                 BASE_FEE,
                 GAS_PRICE_LINK
             );
-
+        console.log(VRFCoordinator.address)
         const tx = await VRFCoordinator.createSubscription();
         const txReceipt = await tx.wait(1);
         const subscriptionId = ethers.BigNumber.from(txReceipt.events[0].topics[1]);
 
         const fundAmount = "1000000000000000000";
         await VRFCoordinator.fundSubscription(subscriptionId, fundAmount);
-
+        console.log(subscriptionId)
         const keyHash = "0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc";
         const vrfCoordinatorAddr = VRFCoordinator.address;
 
@@ -55,13 +55,13 @@ describe("单元测试：Chainlink VRF", async ()=> {
 
     it("单元测试 8: 成功接受到随机数", async function() {
         const { VRFConsumer, VRFCoordinator } = await loadFixture(deployVRFConsumerFixture);
+        console.log(VRFConsumer.address,VRFCoordinator.address)
         await VRFConsumer.requestRandomWords();
         const requestId = await VRFConsumer.s_requestId();
-
-        
+        console.log('requestId=',requestId);
         await expect(
             VRFCoordinator.fulfillRandomWords(
-                requestId,
+                1,
                 VRFConsumer.address
             )
         ).to.emit(VRFConsumer, "ReturnedRandomness")
@@ -99,7 +99,7 @@ describe("单元测试：Chainlink VRF", async ()=> {
             parseInt(rand3), 
             parseInt(rand4)
         ]
-
+        console.log(arr)
         const set = new Set(arr);
         assert(set.size == 5, "there is duplicates in your random numbers");
     });
